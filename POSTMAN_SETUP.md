@@ -4,6 +4,10 @@
 
 This Postman collection provides comprehensive REST API endpoints for testing your Eclipse Dataspace Connector deployment in a local Kubernetes environment.
 
+**Important**: All management API paths include `/api/management/` in the path structure. The correct URL pattern is:
+- `{base_url}/api/management/v3/{resource}`
+- Example: `http://localhost:8080/management/api/management/v3/assets`
+
 ## Quick Start
 
 ### 1. Import the Collection

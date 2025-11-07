@@ -9,6 +9,10 @@ This guide is specifically for testing the Eclipse Dataspace Connector deployed 
 - `postman-mvd-collection.json` - MVD-optimized API collection
 - `postman-mvd-k8s-environment.json` - Pre-configured environment variables
 
+**Important**: All management API paths include `/api/management/` after the connector base path. For example:
+- Full URL: `http://localhost/consumer/cp/api/management/v3/assets`
+- Not: `http://localhost/consumer/cp/v3/assets`
+
 ## Quick Start
 
 ### 1. Import Collection and Environment

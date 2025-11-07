@@ -14,8 +14,8 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{observability_url}}/api/check/health",
-              "host": ["{{observability_url}}"],
+              "raw": "{{management_url}}/api/check/health",
+              "host": ["{{management_url}}"],
               "path": ["api", "check", "health"]
             }
           }
@@ -26,9 +26,9 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{nginx_host}}/provider-qna/api/check/health",
-              "host": ["{{nginx_host}}"],
-              "path": ["provider-qna", "api", "check", "health"]
+              "raw": "{{provider_management_url}}/api/check/health",
+              "host": ["{{provider_management_url}}"],
+              "path": ["api", "check", "health"]
             }
           }
         }
@@ -72,9 +72,9 @@
               "raw": "{\n  \"@context\": {\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"@type\": \"Asset\",\n  \"@id\": \"asset-{{$randomUUID}}\",\n  \"properties\": {\n    \"name\": \"Sample Product Dataset\",\n    \"description\": \"A sample product dataset for MVD testing\",\n    \"contenttype\": \"application/json\",\n    \"version\": \"1.0\"\n  },\n  \"dataAddress\": {\n    \"@type\": \"DataAddress\",\n    \"type\": \"HttpData\",\n    \"baseUrl\": \"http://provider-qna-dataplane:8185/api/public\",\n    \"proxyPath\": \"true\",\n    \"proxyMethod\": \"true\",\n    \"proxyQueryParams\": \"true\"\n  }\n}"
             },
             "url": {
-              "raw": "{{provider_management_url}}/v3/assets",
+              "raw": "{{provider_management_url}}/api/management/v3/assets",
               "host": ["{{provider_management_url}}"],
-              "path": ["v3", "assets"]
+              "path": ["api", "management", "v3", "assets"]
             }
           }
         },
@@ -97,9 +97,9 @@
               "raw": "{\n  \"@context\": {\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"@type\": \"QuerySpec\",\n  \"offset\": 0,\n  \"limit\": 50\n}"
             },
             "url": {
-              "raw": "{{provider_management_url}}/v3/assets/request",
+              "raw": "{{provider_management_url}}/api/management/v3/assets/request",
               "host": ["{{provider_management_url}}"],
-              "path": ["v3", "assets", "request"]
+              "path": ["api", "management", "v3", "assets", "request"]
             }
           }
         },
@@ -114,9 +114,9 @@
               }
             ],
             "url": {
-              "raw": "{{provider_management_url}}/v3/assets/{{asset_id}}",
+              "raw": "{{provider_management_url}}/api/management/v3/assets/{{asset_id}}",
               "host": ["{{provider_management_url}}"],
-              "path": ["v3", "assets", "{{asset_id}}"]
+              "path": ["api", "management", "v3", "assets", "{{asset_id}}"]
             }
           }
         }
@@ -160,9 +160,9 @@
               "raw": "{\n  \"@context\": {\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\",\n    \"odrl\": \"http://www.w3.org/ns/odrl/2/\"\n  },\n  \"@type\": \"PolicyDefinition\",\n  \"@id\": \"unrestricted-policy\",\n  \"policy\": {\n    \"@type\": \"Set\",\n    \"odrl:permission\": [\n      {\n        \"odrl:action\": \"USE\"\n      }\n    ]\n  }\n}"
             },
             "url": {
-              "raw": "{{provider_management_url}}/v3/policydefinitions",
+              "raw": "{{provider_management_url}}/api/management/v3/policydefinitions",
               "host": ["{{provider_management_url}}"],
-              "path": ["v3", "policydefinitions"]
+              "path": ["api", "management", "v3", "policydefinitions"]
             }
           }
         },
@@ -185,9 +185,9 @@
               "raw": "{\n  \"@context\": {\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"@type\": \"QuerySpec\",\n  \"offset\": 0,\n  \"limit\": 50\n}"
             },
             "url": {
-              "raw": "{{provider_management_url}}/v3/policydefinitions/request",
+              "raw": "{{provider_management_url}}/api/management/v3/policydefinitions/request",
               "host": ["{{provider_management_url}}"],
-              "path": ["v3", "policydefinitions", "request"]
+              "path": ["api", "management", "v3", "policydefinitions", "request"]
             }
           }
         }
@@ -231,9 +231,9 @@
               "raw": "{\n  \"@context\": {\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"@type\": \"ContractDefinition\",\n  \"@id\": \"contract-def-{{$randomUUID}}\",\n  \"accessPolicyId\": \"unrestricted-policy\",\n  \"contractPolicyId\": \"unrestricted-policy\",\n  \"assetsSelector\": []\n}"
             },
             "url": {
-              "raw": "{{provider_management_url}}/v3/contractdefinitions",
+              "raw": "{{provider_management_url}}/api/management/v3/contractdefinitions",
               "host": ["{{provider_management_url}}"],
-              "path": ["v3", "contractdefinitions"]
+              "path": ["api", "management", "v3", "contractdefinitions"]
             }
           }
         },
@@ -256,9 +256,9 @@
               "raw": "{\n  \"@context\": {\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"@type\": \"QuerySpec\",\n  \"offset\": 0,\n  \"limit\": 50\n}"
             },
             "url": {
-              "raw": "{{provider_management_url}}/v3/contractdefinitions/request",
+              "raw": "{{provider_management_url}}/api/management/v3/contractdefinitions/request",
               "host": ["{{provider_management_url}}"],
-              "path": ["v3", "contractdefinitions", "request"]
+              "path": ["api", "management", "v3", "contractdefinitions", "request"]
             }
           }
         }
@@ -286,9 +286,9 @@
               "raw": "{\n  \"@context\": {\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"@type\": \"CatalogRequest\",\n  \"counterPartyAddress\": \"{{provider_dsp_url}}\",\n  \"protocol\": \"dataspace-protocol-http\",\n  \"counterPartyId\": \"{{provider_id}}\",\n  \"querySpec\": {\n    \"@type\": \"QuerySpec\",\n    \"offset\": 0,\n    \"limit\": 100\n  }\n}"
             },
             "url": {
-              "raw": "{{management_url}}/v3/catalog/request",
+              "raw": "{{management_url}}/api/management/v3/catalog/request",
               "host": ["{{management_url}}"],
-              "path": ["v3", "catalog", "request"]
+              "path": ["api", "management", "v3", "catalog", "request"]
             }
           }
         },
@@ -311,9 +311,9 @@
               "raw": "{\n  \"@context\": {\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"@type\": \"CatalogRequest\",\n  \"counterPartyAddress\": \"{{catalog_server_dsp_url}}\",\n  \"protocol\": \"dataspace-protocol-http\",\n  \"counterPartyId\": \"did:web:provider-identityhub%3A7083:provider-catalog-server\",\n  \"querySpec\": {\n    \"@type\": \"QuerySpec\",\n    \"offset\": 0,\n    \"limit\": 100\n  }\n}"
             },
             "url": {
-              "raw": "{{management_url}}/v3/catalog/request",
+              "raw": "{{management_url}}/api/management/v3/catalog/request",
               "host": ["{{management_url}}"],
-              "path": ["v3", "catalog", "request"]
+              "path": ["api", "management", "v3", "catalog", "request"]
             }
           }
         }
@@ -357,9 +357,9 @@
               "raw": "{\n  \"@context\": {\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\",\n    \"odrl\": \"http://www.w3.org/ns/odrl/2/\"\n  },\n  \"@type\": \"ContractRequest\",\n  \"counterPartyAddress\": \"{{provider_dsp_url}}\",\n  \"protocol\": \"dataspace-protocol-http\",\n  \"counterPartyId\": \"{{provider_id}}\",\n  \"policy\": {\n    \"@type\": \"Offer\",\n    \"@id\": \"<offer-id-from-catalog>\",\n    \"assigner\": \"{{provider_id}}\",\n    \"target\": \"<asset-id-from-catalog>\",\n    \"odrl:permission\": [\n      {\n        \"odrl:action\": \"USE\"\n      }\n    ]\n  }\n}"
             },
             "url": {
-              "raw": "{{management_url}}/v3/contractnegotiations",
+              "raw": "{{management_url}}/api/management/v3/contractnegotiations",
               "host": ["{{management_url}}"],
-              "path": ["v3", "contractnegotiations"]
+              "path": ["api", "management", "v3", "contractnegotiations"]
             }
           }
         },
@@ -382,9 +382,9 @@
               "raw": "{\n  \"@context\": {\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"@type\": \"QuerySpec\",\n  \"offset\": 0,\n  \"limit\": 50,\n  \"sortOrder\": \"DESC\",\n  \"sortField\": \"createdAt\"\n}"
             },
             "url": {
-              "raw": "{{management_url}}/v3/contractnegotiations/request",
+              "raw": "{{management_url}}/api/management/v3/contractnegotiations/request",
               "host": ["{{management_url}}"],
-              "path": ["v3", "contractnegotiations", "request"]
+              "path": ["api", "management", "v3", "contractnegotiations", "request"]
             }
           }
         },
@@ -399,9 +399,9 @@
               }
             ],
             "url": {
-              "raw": "{{management_url}}/v3/contractnegotiations/{{contract_negotiation_id}}",
+              "raw": "{{management_url}}/api/management/v3/contractnegotiations/{{contract_negotiation_id}}",
               "host": ["{{management_url}}"],
-              "path": ["v3", "contractnegotiations", "{{contract_negotiation_id}}"]
+              "path": ["api", "management", "v3", "contractnegotiations", "{{contract_negotiation_id}}"]
             }
           }
         },
@@ -416,9 +416,9 @@
               }
             ],
             "url": {
-              "raw": "{{management_url}}/v3/contractnegotiations/{{contract_negotiation_id}}/state",
+              "raw": "{{management_url}}/api/management/v3/contractnegotiations/{{contract_negotiation_id}}/state",
               "host": ["{{management_url}}"],
-              "path": ["v3", "contractnegotiations", "{{contract_negotiation_id}}", "state"]
+              "path": ["api", "management", "v3", "contractnegotiations", "{{contract_negotiation_id}}", "state"]
             }
           }
         },
@@ -449,9 +449,9 @@
               }
             ],
             "url": {
-              "raw": "{{management_url}}/v3/contractnegotiations/{{contract_negotiation_id}}/agreement",
+              "raw": "{{management_url}}/api/management/v3/contractnegotiations/{{contract_negotiation_id}}/agreement",
               "host": ["{{management_url}}"],
-              "path": ["v3", "contractnegotiations", "{{contract_negotiation_id}}", "agreement"]
+              "path": ["api", "management", "v3", "contractnegotiations", "{{contract_negotiation_id}}", "agreement"]
             }
           }
         }
@@ -495,9 +495,9 @@
               "raw": "{\n  \"@context\": {\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"@type\": \"TransferRequest\",\n  \"counterPartyAddress\": \"{{provider_dsp_url}}\",\n  \"contractId\": \"{{contract_agreement_id}}\",\n  \"assetId\": \"<asset-id-from-catalog>\",\n  \"protocol\": \"dataspace-protocol-http\",\n  \"counterPartyId\": \"{{provider_id}}\",\n  \"dataDestination\": {\n    \"@type\": \"DataAddress\",\n    \"type\": \"HttpProxy\"\n  },\n  \"transferType\": \"HttpData-PULL\"\n}"
             },
             "url": {
-              "raw": "{{management_url}}/v3/transferprocesses",
+              "raw": "{{management_url}}/api/management/v3/transferprocesses",
               "host": ["{{management_url}}"],
-              "path": ["v3", "transferprocesses"]
+              "path": ["api", "management", "v3", "transferprocesses"]
             }
           }
         },
@@ -520,9 +520,9 @@
               "raw": "{\n  \"@context\": {\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"@type\": \"QuerySpec\",\n  \"offset\": 0,\n  \"limit\": 50,\n  \"sortOrder\": \"DESC\",\n  \"sortField\": \"createdAt\"\n}"
             },
             "url": {
-              "raw": "{{management_url}}/v3/transferprocesses/request",
+              "raw": "{{management_url}}/api/management/v3/transferprocesses/request",
               "host": ["{{management_url}}"],
-              "path": ["v3", "transferprocesses", "request"]
+              "path": ["api", "management", "v3", "transferprocesses", "request"]
             }
           }
         },
@@ -537,9 +537,9 @@
               }
             ],
             "url": {
-              "raw": "{{management_url}}/v3/transferprocesses/{{transfer_process_id}}",
+              "raw": "{{management_url}}/api/management/v3/transferprocesses/{{transfer_process_id}}",
               "host": ["{{management_url}}"],
-              "path": ["v3", "transferprocesses", "{{transfer_process_id}}"]
+              "path": ["api", "management", "v3", "transferprocesses", "{{transfer_process_id}}"]
             }
           }
         },
@@ -554,9 +554,9 @@
               }
             ],
             "url": {
-              "raw": "{{management_url}}/v3/transferprocesses/{{transfer_process_id}}/state",
+              "raw": "{{management_url}}/api/management/v3/transferprocesses/{{transfer_process_id}}/state",
               "host": ["{{management_url}}"],
-              "path": ["v3", "transferprocesses", "{{transfer_process_id}}", "state"]
+              "path": ["api", "management", "v3", "transferprocesses", "{{transfer_process_id}}", "state"]
             }
           }
         }
@@ -584,9 +584,9 @@
               "raw": "{\n  \"@context\": {\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"@type\": \"QuerySpec\",\n  \"offset\": 0,\n  \"limit\": 50\n}"
             },
             "url": {
-              "raw": "{{management_url}}/v3/edrs/request",
+              "raw": "{{management_url}}/api/management/v3/edrs/request",
               "host": ["{{management_url}}"],
-              "path": ["v3", "edrs", "request"]
+              "path": ["api", "management", "v3", "edrs", "request"]
             }
           }
         },
@@ -601,9 +601,9 @@
               }
             ],
             "url": {
-              "raw": "{{management_url}}/v3/edrs/{{transfer_process_id}}/dataaddress",
+              "raw": "{{management_url}}/api/management/v3/edrs/{{transfer_process_id}}/dataaddress",
               "host": ["{{management_url}}"],
-              "path": ["v3", "edrs", "{{transfer_process_id}}", "dataaddress"]
+              "path": ["api", "management", "v3", "edrs", "{{transfer_process_id}}", "dataaddress"]
             }
           }
         }
