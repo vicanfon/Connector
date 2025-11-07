@@ -354,7 +354,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"@context\": {\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\",\n    \"odrl\": \"http://www.w3.org/ns/odrl/2/\"\n  },\n  \"@type\": \"ContractRequest\",\n  \"counterPartyAddress\": \"{{provider_dsp_url}}\",\n  \"protocol\": \"dataspace-protocol-http\",\n  \"counterPartyId\": \"{{provider_id}}\",\n  \"policy\": {\n    \"@type\": \"Offer\",\n    \"@id\": \"<offer-id-from-catalog>\",\n    \"assigner\": \"{{provider_id}}\",\n    \"target\": \"<asset-id-from-catalog>\",\n    \"odrl:permission\": [\n      {\n        \"odrl:action\": \"USE\"\n      }\n    ]\n  }\n}"
+              "raw": "{\n  \"@context\": [\n    \"https://w3id.org/edc/v0.0.1/ns/\"\n  ],\n  \"@type\": \"ContractRequest\",\n  \"counterPartyAddress\": \"{{provider_dsp_url}}\",\n  \"protocol\": \"dataspace-protocol-http\",\n  \"counterPartyId\": \"{{provider_id}}\",\n  \"policy\": {\n    \"@type\": \"Offer\",\n    \"@id\": \"<offer-id-from-catalog>\",\n    \"assigner\": \"{{provider_id}}\",\n    \"target\": \"<asset-id-from-catalog>\",\n    \"permission\": [],\n    \"prohibition\": [],\n    \"obligation\": {\n      \"action\": \"use\",\n      \"constraint\": {\n        \"leftOperand\": \"DataAccess.level\",\n        \"operator\": \"eq\",\n        \"rightOperand\": \"processing\"\n      }\n    }\n  },\n  \"callbackAddresses\": []\n}"
             },
             "url": {
               "raw": "{{management_url}}/api/management/v3/contractnegotiations",
