@@ -1,0 +1,139 @@
+{
+  "id": "mvd-k8s-environment",
+  "name": "MVD K8S Environment",
+  "values": [
+    {
+      "key": "nginx_host",
+      "value": "http://localhost",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "management_url",
+      "value": "{{nginx_host}}/consumer/cp",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "provider_management_url",
+      "value": "{{nginx_host}}/provider-qna/cp",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "provider_manufacturing_url",
+      "value": "{{nginx_host}}/provider-manufacturing/cp",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "catalog_server_url",
+      "value": "{{nginx_host}}/provider-catalog-server/cp",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "consumer_public_url",
+      "value": "{{nginx_host}}/consumer/public",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "provider_public_url",
+      "value": "{{nginx_host}}/provider-qna/public",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "observability_url",
+      "value": "{{nginx_host}}/consumer",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "auth_token",
+      "value": "c3VwZXItdXNlcjpzdXBlci1zZWNyZXQta2V5Cg==",
+      "type": "secret",
+      "enabled": true
+    },
+    {
+      "key": "consumer_dsp_url",
+      "value": "http://consumer-controlplane:8082",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "provider_dsp_url",
+      "value": "http://provider-qna-controlplane:8082",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "provider_manufacturing_dsp_url",
+      "value": "http://provider-manufacturing-controlplane:8082",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "catalog_server_dsp_url",
+      "value": "http://provider-catalog-server-controlplane:8082",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "consumer_id",
+      "value": "did:web:consumer-identityhub%3A7083:consumer",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "provider_id",
+      "value": "did:web:provider-identityhub%3A7083:provider",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "issuer_did",
+      "value": "did:web:dataspace-issuer-service%3A10016:issuer",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "contract_negotiation_id",
+      "value": "",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "contract_agreement_id",
+      "value": "",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "transfer_process_id",
+      "value": "",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "asset_id",
+      "value": "",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "policy_id",
+      "value": "",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "contract_definition_id",
+      "value": "",
+      "type": "default",
+      "enabled": true
+    }
+  ],
+  "_postman_variable_scope": "environment"
+}

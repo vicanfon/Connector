@@ -1,0 +1,636 @@
+{
+  "info": {
+    "name": "EDC MVD (Minimum Viable Dataspace) Collection",
+    "description": "Postman collection for EDC MVD deployment with nginx ingress. Consumer and Provider endpoints pre-configured for k8s environment.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "01 - Observability",
+      "item": [
+        {
+          "name": "Consumer - Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{observability_url}}/api/check/health",
+              "host": ["{{observability_url}}"],
+              "path": ["api", "check", "health"]
+            }
+          }
+        },
+        {
+          "name": "Provider - Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{nginx_host}}/provider-qna/api/check/health",
+              "host": ["{{nginx_host}}"],
+              "path": ["provider-qna", "api", "check", "health"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "02 - Provider - Asset Management",
+      "item": [
+        {
+          "name": "Create Asset",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData['@id']) {",
+                  "        pm.environment.set('asset_id', jsonData['@id']);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-api-key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"@type\": \"Asset\",\n  \"@id\": \"asset-{{$randomUUID}}\",\n  \"properties\": {\n    \"name\": \"Sample Product Dataset\",\n    \"description\": \"A sample product dataset for MVD testing\",\n    \"contenttype\": \"application/json\",\n    \"version\": \"1.0\"\n  },\n  \"dataAddress\": {\n    \"@type\": \"DataAddress\",\n    \"type\": \"HttpData\",\n    \"baseUrl\": \"http://provider-qna-dataplane:8185/api/public\",\n    \"proxyPath\": \"true\",\n    \"proxyMethod\": \"true\",\n    \"proxyQueryParams\": \"true\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{provider_management_url}}/v3/assets",
+              "host": ["{{provider_management_url}}"],
+              "path": ["v3", "assets"]
+            }
+          }
+        },
+        {
+          "name": "Query Assets",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-api-key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"@type\": \"QuerySpec\",\n  \"offset\": 0,\n  \"limit\": 50\n}"
+            },
+            "url": {
+              "raw": "{{provider_management_url}}/v3/assets/request",
+              "host": ["{{provider_management_url}}"],
+              "path": ["v3", "assets", "request"]
+            }
+          }
+        },
+        {
+          "name": "Get Asset by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{provider_management_url}}/v3/assets/{{asset_id}}",
+              "host": ["{{provider_management_url}}"],
+              "path": ["v3", "assets", "{{asset_id}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "03 - Provider - Policy Definitions",
+      "item": [
+        {
+          "name": "Create Unrestricted Policy",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData['@id']) {",
+                  "        pm.environment.set('policy_id', jsonData['@id']);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-api-key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\",\n    \"odrl\": \"http://www.w3.org/ns/odrl/2/\"\n  },\n  \"@type\": \"PolicyDefinition\",\n  \"@id\": \"unrestricted-policy\",\n  \"policy\": {\n    \"@type\": \"Set\",\n    \"odrl:permission\": [\n      {\n        \"odrl:action\": \"USE\"\n      }\n    ]\n  }\n}"
+            },
+            "url": {
+              "raw": "{{provider_management_url}}/v3/policydefinitions",
+              "host": ["{{provider_management_url}}"],
+              "path": ["v3", "policydefinitions"]
+            }
+          }
+        },
+        {
+          "name": "Query Policy Definitions",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-api-key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"@type\": \"QuerySpec\",\n  \"offset\": 0,\n  \"limit\": 50\n}"
+            },
+            "url": {
+              "raw": "{{provider_management_url}}/v3/policydefinitions/request",
+              "host": ["{{provider_management_url}}"],
+              "path": ["v3", "policydefinitions", "request"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "04 - Provider - Contract Definitions",
+      "item": [
+        {
+          "name": "Create Contract Definition",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData['@id']) {",
+                  "        pm.environment.set('contract_definition_id', jsonData['@id']);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-api-key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"@type\": \"ContractDefinition\",\n  \"@id\": \"contract-def-{{$randomUUID}}\",\n  \"accessPolicyId\": \"unrestricted-policy\",\n  \"contractPolicyId\": \"unrestricted-policy\",\n  \"assetsSelector\": []\n}"
+            },
+            "url": {
+              "raw": "{{provider_management_url}}/v3/contractdefinitions",
+              "host": ["{{provider_management_url}}"],
+              "path": ["v3", "contractdefinitions"]
+            }
+          }
+        },
+        {
+          "name": "Query Contract Definitions",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-api-key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"@type\": \"QuerySpec\",\n  \"offset\": 0,\n  \"limit\": 50\n}"
+            },
+            "url": {
+              "raw": "{{provider_management_url}}/v3/contractdefinitions/request",
+              "host": ["{{provider_management_url}}"],
+              "path": ["v3", "contractdefinitions", "request"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "05 - Consumer - Request Catalog",
+      "item": [
+        {
+          "name": "Request Catalog from Provider",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-api-key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"@type\": \"CatalogRequest\",\n  \"counterPartyAddress\": \"{{provider_dsp_url}}\",\n  \"protocol\": \"dataspace-protocol-http\",\n  \"counterPartyId\": \"{{provider_id}}\",\n  \"querySpec\": {\n    \"@type\": \"QuerySpec\",\n    \"offset\": 0,\n    \"limit\": 100\n  }\n}"
+            },
+            "url": {
+              "raw": "{{management_url}}/v3/catalog/request",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "catalog", "request"]
+            }
+          }
+        },
+        {
+          "name": "Request Catalog from Catalog Server",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-api-key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"@type\": \"CatalogRequest\",\n  \"counterPartyAddress\": \"{{catalog_server_dsp_url}}\",\n  \"protocol\": \"dataspace-protocol-http\",\n  \"counterPartyId\": \"did:web:provider-identityhub%3A7083:provider-catalog-server\",\n  \"querySpec\": {\n    \"@type\": \"QuerySpec\",\n    \"offset\": 0,\n    \"limit\": 100\n  }\n}"
+            },
+            "url": {
+              "raw": "{{management_url}}/v3/catalog/request",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "catalog", "request"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "06 - Consumer - Contract Negotiation",
+      "item": [
+        {
+          "name": "Initiate Contract Negotiation",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData['@id']) {",
+                  "        pm.environment.set('contract_negotiation_id', jsonData['@id']);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-api-key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\",\n    \"odrl\": \"http://www.w3.org/ns/odrl/2/\"\n  },\n  \"@type\": \"ContractRequest\",\n  \"counterPartyAddress\": \"{{provider_dsp_url}}\",\n  \"protocol\": \"dataspace-protocol-http\",\n  \"counterPartyId\": \"{{provider_id}}\",\n  \"policy\": {\n    \"@type\": \"Offer\",\n    \"@id\": \"<offer-id-from-catalog>\",\n    \"assigner\": \"{{provider_id}}\",\n    \"target\": \"<asset-id-from-catalog>\",\n    \"odrl:permission\": [\n      {\n        \"odrl:action\": \"USE\"\n      }\n    ]\n  }\n}"
+            },
+            "url": {
+              "raw": "{{management_url}}/v3/contractnegotiations",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "contractnegotiations"]
+            }
+          }
+        },
+        {
+          "name": "Query Contract Negotiations",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-api-key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"@type\": \"QuerySpec\",\n  \"offset\": 0,\n  \"limit\": 50,\n  \"sortOrder\": \"DESC\",\n  \"sortField\": \"createdAt\"\n}"
+            },
+            "url": {
+              "raw": "{{management_url}}/v3/contractnegotiations/request",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "contractnegotiations", "request"]
+            }
+          }
+        },
+        {
+          "name": "Get Contract Negotiation",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{management_url}}/v3/contractnegotiations/{{contract_negotiation_id}}",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "contractnegotiations", "{{contract_negotiation_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Get Negotiation State",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{management_url}}/v3/contractnegotiations/{{contract_negotiation_id}}/state",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "contractnegotiations", "{{contract_negotiation_id}}", "state"]
+            }
+          }
+        },
+        {
+          "name": "Get Agreement",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData['@id']) {",
+                  "        pm.environment.set('contract_agreement_id', jsonData['@id']);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{management_url}}/v3/contractnegotiations/{{contract_negotiation_id}}/agreement",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "contractnegotiations", "{{contract_negotiation_id}}", "agreement"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "07 - Consumer - Transfer Process",
+      "item": [
+        {
+          "name": "Initiate Transfer (HttpProxy)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData['@id']) {",
+                  "        pm.environment.set('transfer_process_id', jsonData['@id']);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-api-key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"@type\": \"TransferRequest\",\n  \"counterPartyAddress\": \"{{provider_dsp_url}}\",\n  \"contractId\": \"{{contract_agreement_id}}\",\n  \"assetId\": \"<asset-id-from-catalog>\",\n  \"protocol\": \"dataspace-protocol-http\",\n  \"counterPartyId\": \"{{provider_id}}\",\n  \"dataDestination\": {\n    \"@type\": \"DataAddress\",\n    \"type\": \"HttpProxy\"\n  },\n  \"transferType\": \"HttpData-PULL\"\n}"
+            },
+            "url": {
+              "raw": "{{management_url}}/v3/transferprocesses",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "transferprocesses"]
+            }
+          }
+        },
+        {
+          "name": "Query Transfer Processes",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-api-key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"@type\": \"QuerySpec\",\n  \"offset\": 0,\n  \"limit\": 50,\n  \"sortOrder\": \"DESC\",\n  \"sortField\": \"createdAt\"\n}"
+            },
+            "url": {
+              "raw": "{{management_url}}/v3/transferprocesses/request",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "transferprocesses", "request"]
+            }
+          }
+        },
+        {
+          "name": "Get Transfer Process",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{management_url}}/v3/transferprocesses/{{transfer_process_id}}",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "transferprocesses", "{{transfer_process_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Get Transfer State",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{management_url}}/v3/transferprocesses/{{transfer_process_id}}/state",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "transferprocesses", "{{transfer_process_id}}", "state"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "08 - Consumer - EDR Access",
+      "item": [
+        {
+          "name": "Query EDR Entries",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-api-key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"@type\": \"QuerySpec\",\n  \"offset\": 0,\n  \"limit\": 50\n}"
+            },
+            "url": {
+              "raw": "{{management_url}}/v3/edrs/request",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "edrs", "request"]
+            }
+          }
+        },
+        {
+          "name": "Get EDR Data Address",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{management_url}}/v3/edrs/{{transfer_process_id}}/dataaddress",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "edrs", "{{transfer_process_id}}", "dataaddress"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "09 - Data Access (Using EDR)",
+      "item": [
+        {
+          "name": "Access Data with EDR Token",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "<EDR-token-from-dataaddress>",
+                "description": "Use the authorization token from the EDR data address"
+              }
+            ],
+            "url": {
+              "raw": "<endpoint-from-EDR-dataaddress>",
+              "host": ["<endpoint-from-EDR-dataaddress>"]
+            },
+            "description": "After getting the EDR data address, use the endpoint URL and authorization token from the response to access the actual data."
+          }
+        }
+      ]
+    }
+  ]
+}
