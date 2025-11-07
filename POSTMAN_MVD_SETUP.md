@@ -56,12 +56,27 @@ The environment should have these variables pre-configured:
 | `provider_management_url` | `{{nginx_host}}/provider-qna/cp` | Provider management API |
 | `catalog_server_url` | `{{nginx_host}}/provider-catalog-server/cp` | Catalog server API |
 | `auth_token` | `c3VwZXItdXNlcjpzdXBlci1zZWNyZXQta2V5Cg==` | API key (base64) |
-| `provider_dsp_url` | `http://provider-qna-controlplane:8082` | Provider DSP endpoint (internal) |
-| `catalog_server_dsp_url` | `http://provider-catalog-server-controlplane:8082` | Catalog server DSP |
+| `provider_dsp_url` | `http://provider-qna-controlplane:8082/api/dsp` | Provider DSP endpoint (internal) |
+| `catalog_server_dsp_url` | `http://provider-catalog-server-controlplane:8082/api/dsp` | Catalog server DSP |
 | `consumer_id` | `did:web:consumer-identityhub%3A7083:consumer` | Consumer DID |
 | `provider_id` | `did:web:provider-identityhub%3A7083:provider` | Provider DID |
 
-### 4. Test Connectivity
+### 4. Understanding URL Structure
+
+The MVD uses two types of URLs:
+
+**Management URLs** (accessed via nginx):
+- Used for direct API management operations
+- Example: `http://localhost/consumer/cp/api/management/v3/assets`
+- Accessed through nginx ingress from outside the cluster
+
+**DSP URLs** (internal k8s service DNS):
+- Used for inter-connector communication (Dataspace Protocol)
+- Example: `http://provider-qna-controlplane:8082/api/dsp`
+- Must include `/api/dsp` path for protocol endpoints
+- Only accessible within the k8s cluster
+
+### 5. Test Connectivity
 
 Run the health check requests:
 1. **01 - Observability** → **Consumer - Health Check**

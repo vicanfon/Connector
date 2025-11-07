@@ -58,25 +58,25 @@
     },
     {
       "key": "consumer_dsp_url",
-      "value": "http://consumer-controlplane:8082",
+      "value": "http://consumer-controlplane:8082/api/dsp",
       "type": "default",
       "enabled": true
     },
     {
       "key": "provider_dsp_url",
-      "value": "http://provider-qna-controlplane:8082",
+      "value": "http://provider-qna-controlplane:8082/api/dsp",
       "type": "default",
       "enabled": true
     },
     {
       "key": "provider_manufacturing_dsp_url",
-      "value": "http://provider-manufacturing-controlplane:8082",
+      "value": "http://provider-manufacturing-controlplane:8082/api/dsp",
       "type": "default",
       "enabled": true
     },
     {
       "key": "catalog_server_dsp_url",
-      "value": "http://provider-catalog-server-controlplane:8082",
+      "value": "http://provider-catalog-server-controlplane:8082/api/dsp",
       "type": "default",
       "enabled": true
     },
