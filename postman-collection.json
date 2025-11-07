@@ -1,0 +1,1078 @@
+{
+  "info": {
+    "name": "Eclipse Dataspace Connector (EDC) API Collection",
+    "description": "Complete REST API collection for testing EDC endpoints in local k8s environment",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "management_url",
+      "value": "http://localhost:8080/management",
+      "type": "string"
+    },
+    {
+      "key": "control_url",
+      "value": "http://localhost:8081/control",
+      "type": "string"
+    },
+    {
+      "key": "observability_url",
+      "value": "http://localhost:8080/api",
+      "type": "string"
+    },
+    {
+      "key": "auth_token",
+      "value": "your-api-key-here",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Observability",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{observability_url}}/check/health",
+              "host": ["{{observability_url}}"],
+              "path": ["check", "health"]
+            }
+          }
+        },
+        {
+          "name": "Readiness Probe",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{observability_url}}/check/readiness",
+              "host": ["{{observability_url}}"],
+              "path": ["check", "readiness"]
+            }
+          }
+        },
+        {
+          "name": "Liveness Probe",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{observability_url}}/check/liveness",
+              "host": ["{{observability_url}}"],
+              "path": ["check", "liveness"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Asset Management",
+      "item": [
+        {
+          "name": "Create Asset",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Api-Key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"@type\": \"Asset\",\n  \"@id\": \"asset-1\",\n  \"properties\": {\n    \"name\": \"Sample Dataset\",\n    \"description\": \"A sample dataset for testing\",\n    \"contenttype\": \"application/json\",\n    \"version\": \"1.0\"\n  },\n  \"dataAddress\": {\n    \"@type\": \"DataAddress\",\n    \"type\": \"HttpData\",\n    \"baseUrl\": \"http://backend-service:8080/data\",\n    \"proxyPath\": \"true\",\n    \"proxyMethod\": \"true\",\n    \"proxyQueryParams\": \"true\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{management_url}}/v3/assets",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "assets"]
+            }
+          }
+        },
+        {
+          "name": "Query Assets",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Api-Key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"@type\": \"QuerySpec\",\n  \"offset\": 0,\n  \"limit\": 50,\n  \"sortOrder\": \"ASC\",\n  \"sortField\": \"id\",\n  \"filterExpression\": []\n}"
+            },
+            "url": {
+              "raw": "{{management_url}}/v3/assets/request",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "assets", "request"]
+            }
+          }
+        },
+        {
+          "name": "Get Asset by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Api-Key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{management_url}}/v3/assets/asset-1",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "assets", "asset-1"]
+            }
+          }
+        },
+        {
+          "name": "Update Asset",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Api-Key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"@type\": \"Asset\",\n  \"@id\": \"asset-1\",\n  \"properties\": {\n    \"name\": \"Updated Sample Dataset\",\n    \"description\": \"An updated sample dataset\",\n    \"contenttype\": \"application/json\",\n    \"version\": \"1.1\"\n  },\n  \"dataAddress\": {\n    \"@type\": \"DataAddress\",\n    \"type\": \"HttpData\",\n    \"baseUrl\": \"http://backend-service:8080/data\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{management_url}}/v3/assets",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "assets"]
+            }
+          }
+        },
+        {
+          "name": "Delete Asset",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "X-Api-Key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{management_url}}/v3/assets/asset-1",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "assets", "asset-1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Policy Definitions",
+      "item": [
+        {
+          "name": "Create Policy Definition",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Api-Key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\",\n    \"odrl\": \"http://www.w3.org/ns/odrl/2/\"\n  },\n  \"@type\": \"PolicyDefinition\",\n  \"@id\": \"policy-1\",\n  \"policy\": {\n    \"@type\": \"Set\",\n    \"odrl:permission\": [\n      {\n        \"odrl:action\": \"USE\",\n        \"odrl:constraint\": [\n          {\n            \"odrl:leftOperand\": \"BusinessPartnerNumber\",\n            \"odrl:operator\": \"eq\",\n            \"odrl:rightOperand\": \"BPN123456\"\n          }\n        ]\n      }\n    ]\n  }\n}"
+            },
+            "url": {
+              "raw": "{{management_url}}/v3/policydefinitions",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "policydefinitions"]
+            }
+          }
+        },
+        {
+          "name": "Create Unrestricted Policy",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Api-Key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\",\n    \"odrl\": \"http://www.w3.org/ns/odrl/2/\"\n  },\n  \"@type\": \"PolicyDefinition\",\n  \"@id\": \"unrestricted-policy\",\n  \"policy\": {\n    \"@type\": \"Set\",\n    \"odrl:permission\": [\n      {\n        \"odrl:action\": \"USE\"\n      }\n    ]\n  }\n}"
+            },
+            "url": {
+              "raw": "{{management_url}}/v3/policydefinitions",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "policydefinitions"]
+            }
+          }
+        },
+        {
+          "name": "Query Policy Definitions",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Api-Key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"@type\": \"QuerySpec\",\n  \"offset\": 0,\n  \"limit\": 50\n}"
+            },
+            "url": {
+              "raw": "{{management_url}}/v3/policydefinitions/request",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "policydefinitions", "request"]
+            }
+          }
+        },
+        {
+          "name": "Get Policy Definition",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Api-Key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{management_url}}/v3/policydefinitions/policy-1",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "policydefinitions", "policy-1"]
+            }
+          }
+        },
+        {
+          "name": "Delete Policy Definition",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "X-Api-Key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{management_url}}/v3/policydefinitions/policy-1",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "policydefinitions", "policy-1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contract Definitions",
+      "item": [
+        {
+          "name": "Create Contract Definition",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Api-Key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"@type\": \"ContractDefinition\",\n  \"@id\": \"contract-def-1\",\n  \"accessPolicyId\": \"unrestricted-policy\",\n  \"contractPolicyId\": \"unrestricted-policy\",\n  \"assetsSelector\": [\n    {\n      \"@type\": \"CriterionDto\",\n      \"operandLeft\": \"id\",\n      \"operator\": \"=\",\n      \"operandRight\": \"asset-1\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{management_url}}/v3/contractdefinitions",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "contractdefinitions"]
+            }
+          }
+        },
+        {
+          "name": "Query Contract Definitions",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Api-Key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"@type\": \"QuerySpec\",\n  \"offset\": 0,\n  \"limit\": 50\n}"
+            },
+            "url": {
+              "raw": "{{management_url}}/v3/contractdefinitions/request",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "contractdefinitions", "request"]
+            }
+          }
+        },
+        {
+          "name": "Get Contract Definition",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Api-Key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{management_url}}/v3/contractdefinitions/contract-def-1",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "contractdefinitions", "contract-def-1"]
+            }
+          }
+        },
+        {
+          "name": "Delete Contract Definition",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "X-Api-Key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{management_url}}/v3/contractdefinitions/contract-def-1",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "contractdefinitions", "contract-def-1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Catalog",
+      "item": [
+        {
+          "name": "Request Catalog",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Api-Key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"@type\": \"CatalogRequest\",\n  \"counterPartyAddress\": \"http://provider-connector:8080/api/dsp\",\n  \"protocol\": \"dataspace-protocol-http\",\n  \"counterPartyId\": \"provider-connector\",\n  \"querySpec\": {\n    \"@type\": \"QuerySpec\",\n    \"offset\": 0,\n    \"limit\": 100\n  }\n}"
+            },
+            "url": {
+              "raw": "{{management_url}}/v3/catalog/request",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "catalog", "request"]
+            }
+          }
+        },
+        {
+          "name": "Request Dataset",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Api-Key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"@type\": \"DatasetRequest\",\n  \"counterPartyAddress\": \"http://provider-connector:8080/api/dsp\",\n  \"protocol\": \"dataspace-protocol-http\",\n  \"counterPartyId\": \"provider-connector\",\n  \"@id\": \"asset-1\"\n}"
+            },
+            "url": {
+              "raw": "{{management_url}}/v3/catalog/dataset/request",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "catalog", "dataset", "request"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contract Negotiations",
+      "item": [
+        {
+          "name": "Initiate Contract Negotiation",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Api-Key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\",\n    \"odrl\": \"http://www.w3.org/ns/odrl/2/\"\n  },\n  \"@type\": \"ContractRequest\",\n  \"counterPartyAddress\": \"http://provider-connector:8080/api/dsp\",\n  \"protocol\": \"dataspace-protocol-http\",\n  \"counterPartyId\": \"provider-connector\",\n  \"policy\": {\n    \"@type\": \"Offer\",\n    \"@id\": \"offer-id\",\n    \"assigner\": \"provider-connector\",\n    \"target\": \"asset-1\",\n    \"odrl:permission\": [\n      {\n        \"odrl:action\": \"USE\"\n      }\n    ]\n  }\n}"
+            },
+            "url": {
+              "raw": "{{management_url}}/v3/contractnegotiations",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "contractnegotiations"]
+            }
+          }
+        },
+        {
+          "name": "Query Contract Negotiations",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Api-Key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"@type\": \"QuerySpec\",\n  \"offset\": 0,\n  \"limit\": 50,\n  \"sortOrder\": \"DESC\",\n  \"sortField\": \"createdAt\"\n}"
+            },
+            "url": {
+              "raw": "{{management_url}}/v3/contractnegotiations/request",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "contractnegotiations", "request"]
+            }
+          }
+        },
+        {
+          "name": "Get Contract Negotiation",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Api-Key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{management_url}}/v3/contractnegotiations/:negotiationId",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "contractnegotiations", ":negotiationId"],
+              "variable": [
+                {
+                  "key": "negotiationId",
+                  "value": "negotiation-1"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Negotiation State",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Api-Key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{management_url}}/v3/contractnegotiations/:negotiationId/state",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "contractnegotiations", ":negotiationId", "state"],
+              "variable": [
+                {
+                  "key": "negotiationId",
+                  "value": "negotiation-1"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Agreement",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Api-Key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{management_url}}/v3/contractnegotiations/:negotiationId/agreement",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "contractnegotiations", ":negotiationId", "agreement"],
+              "variable": [
+                {
+                  "key": "negotiationId",
+                  "value": "negotiation-1"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Terminate Negotiation",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Api-Key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"@type\": \"TerminateNegotiation\",\n  \"reason\": \"Negotiation no longer needed\"\n}"
+            },
+            "url": {
+              "raw": "{{management_url}}/v3/contractnegotiations/:negotiationId/terminate",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "contractnegotiations", ":negotiationId", "terminate"],
+              "variable": [
+                {
+                  "key": "negotiationId",
+                  "value": "negotiation-1"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contract Agreements",
+      "item": [
+        {
+          "name": "Query Contract Agreements",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Api-Key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"@type\": \"QuerySpec\",\n  \"offset\": 0,\n  \"limit\": 50\n}"
+            },
+            "url": {
+              "raw": "{{management_url}}/v3/contractagreements/request",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "contractagreements", "request"]
+            }
+          }
+        },
+        {
+          "name": "Get Contract Agreement",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Api-Key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{management_url}}/v3/contractagreements/:agreementId",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "contractagreements", ":agreementId"],
+              "variable": [
+                {
+                  "key": "agreementId",
+                  "value": "agreement-1"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Negotiation by Agreement",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Api-Key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{management_url}}/v3/contractagreements/:agreementId/negotiation",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "contractagreements", ":agreementId", "negotiation"],
+              "variable": [
+                {
+                  "key": "agreementId",
+                  "value": "agreement-1"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Transfer Processes",
+      "item": [
+        {
+          "name": "Initiate Transfer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Api-Key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"@type\": \"TransferRequest\",\n  \"counterPartyAddress\": \"http://provider-connector:8080/api/dsp\",\n  \"contractId\": \"agreement-1\",\n  \"assetId\": \"asset-1\",\n  \"protocol\": \"dataspace-protocol-http\",\n  \"counterPartyId\": \"provider-connector\",\n  \"dataDestination\": {\n    \"@type\": \"DataAddress\",\n    \"type\": \"HttpProxy\"\n  },\n  \"privateProperties\": {\n    \"receiverHttpEndpoint\": \"http://consumer-backend:8080/api/callback\"\n  },\n  \"transferType\": \"HttpData-PULL\"\n}"
+            },
+            "url": {
+              "raw": "{{management_url}}/v3/transferprocesses",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "transferprocesses"]
+            }
+          }
+        },
+        {
+          "name": "Query Transfer Processes",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Api-Key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"@type\": \"QuerySpec\",\n  \"offset\": 0,\n  \"limit\": 50,\n  \"sortOrder\": \"DESC\",\n  \"sortField\": \"createdAt\"\n}"
+            },
+            "url": {
+              "raw": "{{management_url}}/v3/transferprocesses/request",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "transferprocesses", "request"]
+            }
+          }
+        },
+        {
+          "name": "Get Transfer Process",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Api-Key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{management_url}}/v3/transferprocesses/:transferId",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "transferprocesses", ":transferId"],
+              "variable": [
+                {
+                  "key": "transferId",
+                  "value": "transfer-1"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Transfer State",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Api-Key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{management_url}}/v3/transferprocesses/:transferId/state",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "transferprocesses", ":transferId", "state"],
+              "variable": [
+                {
+                  "key": "transferId",
+                  "value": "transfer-1"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Terminate Transfer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Api-Key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"@type\": \"TerminateTransfer\",\n  \"reason\": \"Transfer no longer needed\"\n}"
+            },
+            "url": {
+              "raw": "{{management_url}}/v3/transferprocesses/:transferId/terminate",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "transferprocesses", ":transferId", "terminate"],
+              "variable": [
+                {
+                  "key": "transferId",
+                  "value": "transfer-1"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Suspend Transfer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Api-Key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"@type\": \"SuspendTransfer\",\n  \"reason\": \"Temporary suspension\"\n}"
+            },
+            "url": {
+              "raw": "{{management_url}}/v3/transferprocesses/:transferId/suspend",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "transferprocesses", ":transferId", "suspend"],
+              "variable": [
+                {
+                  "key": "transferId",
+                  "value": "transfer-1"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Resume Transfer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-Api-Key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{management_url}}/v3/transferprocesses/:transferId/resume",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "transferprocesses", ":transferId", "resume"],
+              "variable": [
+                {
+                  "key": "transferId",
+                  "value": "transfer-1"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Deprovision Transfer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-Api-Key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{management_url}}/v3/transferprocesses/:transferId/deprovision",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "transferprocesses", ":transferId", "deprovision"],
+              "variable": [
+                {
+                  "key": "transferId",
+                  "value": "transfer-1"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "EDR Cache (Endpoint Data Reference)",
+      "item": [
+        {
+          "name": "Query EDR Entries",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Api-Key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"@type\": \"QuerySpec\",\n  \"offset\": 0,\n  \"limit\": 50\n}"
+            },
+            "url": {
+              "raw": "{{management_url}}/v3/edrs/request",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "edrs", "request"]
+            }
+          }
+        },
+        {
+          "name": "Get EDR Data Address",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Api-Key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{management_url}}/v3/edrs/:transferProcessId/dataaddress",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "edrs", ":transferProcessId", "dataaddress"],
+              "variable": [
+                {
+                  "key": "transferProcessId",
+                  "value": "transfer-1"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete EDR Entry",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "X-Api-Key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{management_url}}/v3/edrs/:transferProcessId",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "edrs", ":transferProcessId"],
+              "variable": [
+                {
+                  "key": "transferProcessId",
+                  "value": "transfer-1"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Secrets Management",
+      "item": [
+        {
+          "name": "Create Secret",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Api-Key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"@type\": \"Secret\",\n  \"@id\": \"api-key-secret\",\n  \"value\": \"super-secret-api-key-value\"\n}"
+            },
+            "url": {
+              "raw": "{{management_url}}/v3/secrets",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "secrets"]
+            }
+          }
+        },
+        {
+          "name": "Get Secret",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Api-Key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{management_url}}/v3/secrets/:secretId",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "secrets", ":secretId"],
+              "variable": [
+                {
+                  "key": "secretId",
+                  "value": "api-key-secret"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Secret",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Api-Key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"@type\": \"Secret\",\n  \"@id\": \"api-key-secret\",\n  \"value\": \"updated-secret-value\"\n}"
+            },
+            "url": {
+              "raw": "{{management_url}}/v3/secrets",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "secrets"]
+            }
+          }
+        },
+        {
+          "name": "Delete Secret",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "X-Api-Key",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{management_url}}/v3/secrets/:secretId",
+              "host": ["{{management_url}}"],
+              "path": ["v3", "secrets", ":secretId"],
+              "variable": [
+                {
+                  "key": "secretId",
+                  "value": "api-key-secret"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Version",
+      "item": [
+        {
+          "name": "Get Version Info",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{management_url}}/v1/version",
+              "host": ["{{management_url}}"],
+              "path": ["v1", "version"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
