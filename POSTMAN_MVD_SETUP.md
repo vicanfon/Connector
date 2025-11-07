@@ -160,6 +160,10 @@ Key points:
 
 This queries the federated catalog which aggregates offerings from multiple providers.
 
+**Important**: The catalog server shares the same participant ID (`provider_id`) as the regular provider. Only the DSP address differs:
+- Provider DSP: `http://provider-qna-controlplane:8082/api/dsp`
+- Catalog Server DSP: `http://provider-catalog-server-controlplane:8082/api/dsp`
+
 ### Phase 3: Contract Negotiation (Folder 06)
 
 #### Step 5: Initiate Negotiation

@@ -308,7 +308,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"@context\": {\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"@type\": \"CatalogRequest\",\n  \"counterPartyAddress\": \"{{catalog_server_dsp_url}}\",\n  \"protocol\": \"dataspace-protocol-http\",\n  \"counterPartyId\": \"did:web:provider-identityhub%3A7083:provider-catalog-server\",\n  \"querySpec\": {\n    \"@type\": \"QuerySpec\",\n    \"offset\": 0,\n    \"limit\": 100\n  }\n}"
+              "raw": "{\n  \"@context\": {\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"@type\": \"CatalogRequest\",\n  \"counterPartyAddress\": \"{{catalog_server_dsp_url}}\",\n  \"protocol\": \"dataspace-protocol-http\",\n  \"counterPartyId\": \"{{provider_id}}\",\n  \"querySpec\": {\n    \"@type\": \"QuerySpec\",\n    \"offset\": 0,\n    \"limit\": 100\n  }\n}"
             },
             "url": {
               "raw": "{{management_url}}/api/management/v3/catalog/request",
