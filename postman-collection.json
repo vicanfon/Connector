@@ -459,7 +459,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"@context\": {\n    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\",\n    \"odrl\": \"http://www.w3.org/ns/odrl/2/\"\n  },\n  \"@type\": \"ContractRequest\",\n  \"counterPartyAddress\": \"http://provider-connector:8080/api/dsp\",\n  \"protocol\": \"dataspace-protocol-http\",\n  \"counterPartyId\": \"provider-connector\",\n  \"policy\": {\n    \"@type\": \"Offer\",\n    \"@id\": \"offer-id\",\n    \"assigner\": \"provider-connector\",\n    \"target\": \"asset-1\",\n    \"odrl:permission\": [\n      {\n        \"odrl:action\": \"USE\"\n      }\n    ]\n  }\n}"
+              "raw": "{\n  \"@context\": [\n    \"https://w3id.org/edc/connector/management/v0.0.1\"\n  ],\n  \"@type\": \"ContractRequest\",\n  \"counterPartyAddress\": \"http://provider-connector:8080/api/dsp\",\n  \"protocol\": \"dataspace-protocol-http\",\n  \"counterPartyId\": \"provider-connector\",\n  \"policy\": {\n    \"@type\": \"Offer\",\n    \"@id\": \"offer-id\",\n    \"assigner\": \"provider-connector\",\n    \"target\": \"asset-1\",\n    \"permission\": [\n      {\n        \"action\": \"USE\"\n      }\n    ]\n  },\n  \"callbackAddresses\": []\n}"
             },
             "url": {
               "raw": "{{management_url}}/api/management/v3/contractnegotiations",
