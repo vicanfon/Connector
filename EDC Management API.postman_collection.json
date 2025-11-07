@@ -1,0 +1,942 @@
+{
+  "info": {
+    "_postman_id": "a8a0c46-c2e5-428b-8a1e-0a5e8a7e6b5c",
+    "name": "EDC Management API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Asset API",
+      "item": [
+        {
+          "name": "Create Asset",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"edc\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"@id\": \"asset-id\",\n  \"properties\": {\n    \"name\": \"test-asset\",\n    \"description\": \"A description of the asset\",\n    \"version\": \"1.0.0\",\n    \"contenttype\": \"application/json\"\n  },\n  \"dataAddress\": {\n    \"type\": \"HttpData\",\n    \"baseUrl\": \"https://example.com\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/v3/assets",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "v3",
+                "assets"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Request Assets",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"edc\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"filterExpression\": [],\n  \"sortOrder\": \"ASC\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/v3/assets/request",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "v3",
+                "assets",
+                "request"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Asset",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/v3/assets/asset-id",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "v3",
+                "assets",
+                "asset-id"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Remove Asset",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/v3/assets/asset-id",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "v3",
+                "assets",
+                "asset-id"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Asset",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"edc\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"@id\": \"asset-id\",\n  \"properties\": {\n    \"name\": \"updated-test-asset\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/v3/assets",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "v3",
+                "assets"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Catalog API",
+      "item": [
+        {
+          "name": "Request Catalog",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"edc\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"protocol\": \"dataspace-protocol-http\",\n  \"counterPartyAddress\": \"http://provider-address\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/v3/catalog/request",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "v3",
+                "catalog",
+                "request"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Dataset",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"edc\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"protocol\": \"dataspace-protocol-http\",\n  \"counterPartyAddress\": \"http://provider-address\",\n  \"datasetId\": \"dataset-id\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/v3/catalog/dataset/request",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "v3",
+                "catalog",
+                "dataset",
+                "request"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Contract Agreement API",
+      "item": [
+        {
+          "name": "Query Agreements",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"edc\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/v3/contractagreements/request",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "v3",
+                "contractagreements",
+                "request"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Agreement",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/v3/contractagreements/agreement-id",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "v3",
+                "contractagreements",
+                "agreement-id"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Negotiation",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/v3/contractagreements/agreement-id/negotiation",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "v3",
+                "contractagreements",
+                "agreement-id",
+                "negotiation"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Contract Definition API",
+      "item": [
+        {
+          "name": "Create Contract Definition",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"edc\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"@id\": \"definition-id\",\n  \"accessPolicyId\": \"policy-id\",\n  \"contractPolicyId\": \"policy-id\",\n  \"assetsSelector\": []\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/v4alpha/contractdefinitions",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "v4alpha",
+                "contractdefinitions"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Request Contract Definitions",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"edc\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/v4alpha/contractdefinitions/request",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "v4alpha",
+                "contractdefinitions",
+                "request"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Contract Definition",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/v4alpha/contractdefinitions/definition-id",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "v4alpha",
+                "contractdefinitions",
+                "definition-id"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Contract Definition",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/v4alpha/contractdefinitions/definition-id",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "v4alpha",
+                "contractdefinitions",
+                "definition-id"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Contract Definition",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"edc\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"@id\": \"definition-id\",\n  \"accessPolicyId\": \"new-policy-id\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/v4alpha/contractdefinitions",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "v4alpha",
+                "contractdefinitions"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Contract Negotiation API",
+      "item": [
+        {
+          "name": "Initiate Contract Negotiation",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"edc\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"counterPartyAddress\": \"http://provider-address\",\n  \"protocol\": \"dataspace-protocol-http\",\n  \"offer\": {\n    \"offerId\": \"offer-id\",\n    \"assetId\": \"asset-id\",\n    \"policy\": {}\n  }\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/v4alpha/contractnegotiations",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "v4alpha",
+                "contractnegotiations"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Query Negotiations",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"edc\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/v4alpha/contractnegotiations/request",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "v4alpha",
+                "contractnegotiations",
+                "request"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Negotiation",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/v4alpha/contractnegotiations/negotiation-id",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "v4alpha",
+                "contractnegotiations",
+                "negotiation-id"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Negotiation State",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/v4alpha/contractnegotiations/negotiation-id/state",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "v4alpha",
+                "contractnegotiations",
+                "negotiation-id",
+                "state"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Agreement",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/v4alpha/contractnegotiations/negotiation-id/agreement",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "v4alpha",
+                "contractnegotiations",
+                "negotiation-id",
+                "agreement"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Terminate Negotiation",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"edc\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"reason\": \"Terminated by user\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/v4alpha/contractnegotiations/negotiation-id/terminate",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "v4alpha",
+                "contractnegotiations",
+                "negotiation-id",
+                "terminate"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Negotiation",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/v4alpha/contractnegotiations/negotiation-id",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "v4alpha",
+                "contractnegotiations",
+                "negotiation-id"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "EDR Cache API",
+      "item": [
+        {
+          "name": "Request EDR Entries",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"edc\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/v4alpha/edrs/request",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "v4alpha",
+                "edrs",
+                "request"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get EDR Data Address",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/v4alpha/edrs/transfer-process-id/dataaddress",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "v4alpha",
+                "edrs",
+                "transfer-process-id",
+                "dataaddress"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Remove EDR Entry",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/v4alpha/edrs/transfer-process-id",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "v4alpha",
+                "edrs",
+                "transfer-process-id"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Policy Definition API",
+      "item": [
+        {
+          "name": "Create Policy Definition",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"edc\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"@id\": \"policy-id\",\n  \"policy\": {}\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/v4alpha/policydefinitions",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "v4alpha",
+                "policydefinitions"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Request Policy Definitions",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"edc\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/v4alpha/policydefinitions/request",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "v4alpha",
+                "policydefinitions",
+                "request"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Policy Definition",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/v4alpha/policydefinitions/policy-id",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "v4alpha",
+                "policydefinitions",
+                "policy-id"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Policy Definition",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/v4alpha/policydefinitions/policy-id",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "v4alpha",
+                "policydefinitions",
+                "policy-id"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Policy Definition",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"edc\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"@id\": \"policy-id\",\n  \"policy\": {\n    \"@type\": \"set\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/v4alpha/policydefinitions/policy-id",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "v4alpha",
+                "policydefinitions",
+                "policy-id"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Secrets API",
+      "item": [
+        {
+          "name": "Create Secret",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"edc\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"@id\": \"secret-id\",\n  \"value\": \"secret-value\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/v4alpha/secrets",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "v4alpha",
+                "secrets"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Secret",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/v4alpha/secrets/secret-id",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "v4alpha",
+                "secrets",
+                "secret-id"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Remove Secret",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/v4alpha/secrets/secret-id",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "v4alpha",
+                "secrets",
+                "secret-id"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Secret",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"edc\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"@id\": \"secret-id\",\n  \"value\": \"new-secret-value\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/v4alpha/secrets",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "v4alpha",
+                "secrets"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Transfer Process API",
+      "item": [
+        {
+          "name": "Initiate Transfer Process",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"edc\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"counterPartyAddress\": \"http://provider-address\",\n  \"protocol\": \"dataspace-protocol-http\",\n  \"contractId\": \"contract-id\",\n  \"assetId\": \"asset-id\",\n  \"dataDestination\": {\n    \"type\": \"HttpProxy\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/v4alpha/transferprocesses",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "v4alpha",
+                "transferprocesses"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Query Transfer Processes",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"edc\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/v4alpha/transferprocesses/request",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "v4alpha",
+                "transferprocesses",
+                "request"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Transfer Process",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/v4alpha/transferprocesses/transfer-id",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "v4alpha",
+                "transferprocesses",
+                "transfer-id"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Transfer Process State",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/v4alpha/transferprocesses/transfer-id/state",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "v4alpha",
+                "transferprocesses",
+                "transfer-id",
+                "state"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Deprovision Transfer Process",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/v4alpha/transferprocesses/transfer-id/deprovision",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "v4alpha",
+                "transferprocesses",
+                "transfer-id",
+                "deprovision"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Terminate Transfer Process",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"edc\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"reason\": \"Terminated by user\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/v4alpha/transferprocesses/transfer-id/terminate",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "v4alpha",
+                "transferprocesses",
+                "transfer-id",
+                "terminate"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Suspend Transfer Process",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": {\n    \"edc\": \"https://w3id.org/edc/v0.0.1/ns/\"\n  },\n  \"reason\": \"Suspended by user\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/v4alpha/transferprocesses/transfer-id/suspend",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "v4alpha",
+                "transferprocesses",
+                "transfer-id",
+                "suspend"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Resume Transfer Process",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/v4alpha/transferprocesses/transfer-id/resume",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "v4alpha",
+                "transferprocesses",
+                "transfer-id",
+                "resume"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
